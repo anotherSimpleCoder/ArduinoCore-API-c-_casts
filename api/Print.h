@@ -50,11 +50,11 @@ class Print
     virtual size_t write(uint8_t) = 0;
     size_t write(const char *str) {
       if (str == NULL) return 0;
-      return write((const uint8_t *)str, strlen(str));
+      return write(reinterpret_cast<const uint8_t *>(str), strlen(str));
     }
     virtual size_t write(const uint8_t *buffer, size_t size);
     size_t write(const char *buffer, size_t size) {
-      return write((const uint8_t *)buffer, size);
+      return write(reinterpret_cast<const uint8_t *>(buffer), size);
     }
 
     // default to zero, meaning "a single write may block"
@@ -89,10 +89,6 @@ class Print
     size_t println(double, int = 2);
     size_t println(const Printable&);
     size_t println(void);
-
-    // EFP3 - Add printf() to make life so much easier...
-    size_t printf(const char *format, ...);
-    size_t printf_P(const char *format, ...);
 
     virtual void flush() { /* Empty implementation for backward compatibility */ }
 };
